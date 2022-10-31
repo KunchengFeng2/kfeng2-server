@@ -2,7 +2,7 @@
 FROM golang:latest AS build
 
 # Copy source
-WORKDIR /project/source
+WORKDIR /csc482/kfeng2-server/source
 COPY . .
 
 # Get required modules
@@ -19,14 +19,14 @@ RUN apk update && \
     apk upgrade && \
     apk add ca-certificates
 
-WORKDIR /project
+WORKDIR /csc482/kfeng2-server
 
 # Copy files from previous build container
-COPY --from=build /project/source/main ./
+COPY --from=build /csc482/kfeng2-server/source/main ./
 
 # Add environment variables
 # ENV ...
-ENV Loggly_Token http://logs-01.loggly.com/inputs/5e085983-7ed1-4fc1-bf95-5f6278278035/tag/http/
+COPY ./csc482.env ./
 
 # Check results
 RUN env && pwd && find .

@@ -1,0 +1,6 @@
+*.env
+*.exe
+*.mod
+*.sum
+*.tar
+*.pem
