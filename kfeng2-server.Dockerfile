@@ -26,7 +26,8 @@ COPY --from=build /csc482/kfeng2-server/source/main ./
 
 # Add environment variables
 # ENV ...
-COPY ./csc482.env ./
+# Using environment file won't work with AWS
+# COPY ./csc482.env ./
 
 # Check results
 RUN env && pwd && find .

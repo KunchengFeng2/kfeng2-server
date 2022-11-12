@@ -10,8 +10,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/joho/godotenv"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
@@ -25,20 +23,10 @@ var tableName string
 
 func init() {
 	// Load environment variables
-	godotenv.Load("csc482.env")
+	// godotenv.Load("csc482.env")
 	loggly_Token = os.Getenv("Loggly_Token")
 
-	// Debugging
-	// fmt.Println("Loggly_Token: ", loggly_Token)
-	// path, _ := os.Getwd()
-	// fmt.Println("Path: ", path)
-	// files, _ := ioutil.ReadDir("./")
-	// fmt.Println("Directory: ")
-	// for _, f := range files {
-	// 	fmt.Println(f.Name())
-	// }
-
-	// Establish a new connection
+	// Establish a new connection, the credentials should be set as environment variables
 	sess, err := session.NewSession()
 	if err != nil {
 		fmt.Println("Problem occured when forming new session!")
@@ -194,9 +182,7 @@ func search(writer http.ResponseWriter, request *http.Request) {
 func notFound(writer http.ResponseWriter, request *http.Request) {
 	// This method handles the default traffic, includes the wrong methods
 
-	var message string                     // This is for http
-	var response = make(map[string]string) // This is for loggly
-
+	var message string
 	if request.Method == "GET" {
 		message = "404 Not Found"
 		writer.WriteHeader(http.StatusNotFound)
@@ -206,7 +192,6 @@ func notFound(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	writer.Write([]byte(message))
-	response["HTTP status"] = message
 
 	// Report this event
 	sendToLoggly(message, request)
