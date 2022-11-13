@@ -25,6 +25,7 @@ func init() {
 	// Load environment variables
 	// godotenv.Load("csc482.env")
 	loggly_Token = os.Getenv("Loggly_Token")
+	fmt.Println("Loggly_Token: ", loggly_Token)
 
 	// Establish a new connection, the credentials should be set as environment variables
 	sess, err := session.NewSession()
