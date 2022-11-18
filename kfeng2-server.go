@@ -90,11 +90,13 @@ func status(writer http.ResponseWriter, request *http.Request) {
 	// I want to scan everything in the table, but only counting the result this time
 	result, err := database.Scan(&dynamodb.ScanInput{
 		TableName: aws.String(tableName),
+		Select:    aws.String("COUNT"),
 	})
 	if err != nil {
 		log.Fatalf("Query API call failed: %s", err)
 	}
 
+	// fmt.Println("Scan result:\n ", result)
 	var number = *result.Count
 
 	// Prepair response
