@@ -1,5 +1,4 @@
 *.env
 *.exe
-*.sum
 *.tar
 *.pem

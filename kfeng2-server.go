@@ -213,10 +213,13 @@ func sendToLoggly(message string, request *http.Request) {
 		"message": {message},
 	}
 
-	_, err := http.PostForm(loggly_Token, data)
+	response, err := http.PostForm(loggly_Token, data)
 	if err != nil {
 		panic(err)
 	}
+
+	// HTTP response body need to be closed?
+	defer response.Body.Close()
 }
 
 type ServerStatus struct {
