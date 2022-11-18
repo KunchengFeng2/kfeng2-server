@@ -200,11 +200,11 @@ func notFound(writer http.ResponseWriter, request *http.Request) {
 
 func sendToLoggly(message string, request *http.Request) {
 	// Stuff that should be sent to Loggly
-	fmt.Println("Respond message: ", message)
-	fmt.Println("Request method: ", request.Method)     // This gives the calling method
-	fmt.Println("Request url: ", request.URL)           // This gives the request path
-	fmt.Println("Request source: ", request.RemoteAddr) // This gives the caller ip address
-	fmt.Println()
+	// fmt.Println("Respond message: ", message)
+	// fmt.Println("Request method: ", request.Method)     // This gives the calling method
+	// fmt.Println("Request url: ", request.URL)           // This gives the request path
+	// fmt.Println("Request source: ", request.RemoteAddr) // This gives the caller ip address
+	// fmt.Println()
 
 	var data = url.Values{
 		"method":  {request.Method},
@@ -218,7 +218,7 @@ func sendToLoggly(message string, request *http.Request) {
 		panic(err)
 	}
 
-	// HTTP response body need to be closed?
+	// Memory leak if not ?
 	defer response.Body.Close()
 }
 
