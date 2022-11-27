@@ -25,7 +25,7 @@ func init() {
 	// Load environment variables
 	// godotenv.Load("csc482.env")
 	loggly_Token = os.Getenv("Loggly_Token")
-	fmt.Println("Loggly_Token: ", loggly_Token)
+	// fmt.Println("Loggly_Token: ", loggly_Token)
 
 	// Establish a new connection, the credentials should be set as environment variables
 	sess, err := session.NewSession()
@@ -87,17 +87,16 @@ func status(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 
-	// I want to scan everything in the table, but only counting the result this time
-	result, err := database.Scan(&dynamodb.ScanInput{
+	// Scanning is too expensive, using DescribeTable as suggested by Professor Early
+	description, err := database.DescribeTable(&dynamodb.DescribeTableInput{
 		TableName: aws.String(tableName),
-		Select:    aws.String("COUNT"),
 	})
 	if err != nil {
-		log.Fatalf("Query API call failed: %s", err)
+		log.Fatalf("Failed to communicate with database: %s", err)
 	}
 
-	// fmt.Println("Scan result:\n ", result)
-	var number = *result.Count
+	// fmt.Println("Table description:\n ", description)
+	var number = *description.Table.ItemCount
 
 	// Prepair response
 	response := make(map[string]string)
