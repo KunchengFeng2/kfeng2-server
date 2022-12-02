@@ -87,7 +87,7 @@ func status(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 
-	// Scanning is too expensive, using DescribeTable as suggested by Professor Early
+	// Scanning is too expensive, using DescribeTable as suggested by Professor Early.
 	description, err := database.DescribeTable(&dynamodb.DescribeTableInput{
 		TableName: aws.String(tableName),
 	})
